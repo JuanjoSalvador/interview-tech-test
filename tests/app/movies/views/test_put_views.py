@@ -7,4 +7,4 @@ def test_update_movie(api_client):
 
     with pytest.raises(NotImplementedError):
         data = {"Type": "movie", "Title": "Mock Movie"}
-        response = api_client.put('http://testserver/api/v1/movies/id1/', json=data)   
+        api_client.put('http://testserver/api/v1/movies/id1/', json=data)   

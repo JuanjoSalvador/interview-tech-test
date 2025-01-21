@@ -25,7 +25,7 @@ def _validate_token(token) -> Tuple[str, bool]: # pragma: no cover
     ):
         email = None
         is_valid = False        
-    except auth.CertificateFetchError as fse:
+    except auth.CertificateFetchError:
         # print("Error while token verification:", fse)
         email = None
         is_valid = False
