@@ -1,7 +1,8 @@
-import dotenv
 import json
+import string
 import urllib.request as request
 
+import dotenv
 from google.api_core.exceptions import AlreadyExists, RetryError
 from google.cloud import firestore
 
@@ -35,6 +36,17 @@ def populate_db():
                 try:
                     print(f"Adding {movie['Title']} to the database")
                     doc_ref = db.collection(fsCollection).document(movie['imdbID'])
+                    
+                    # Tokenize title to allow partial search in Firebase. 
+                    # Make all lowercase to the search can be insensitive.
+                    title_without_special_chars = movie['Title'].translate(str.maketrans('', '', string.punctuation))
+                    tokenized_title = [token.lower() for token in title_without_special_chars.split(' ')]
+                    movie['Title_tokens'] = (
+                        tokenized_title + 
+                        [title_without_special_chars.lower()] + 
+                        [movie['Title'].lower()]
+                    )
+
                     doc_ref.create(movie)
                 except AlreadyExists:
                     print(f"Error: {movie['Title']} already exists in the database. Skipping...")
