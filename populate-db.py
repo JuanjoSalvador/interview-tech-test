@@ -6,7 +6,7 @@ import dotenv
 from google.api_core.exceptions import AlreadyExists, RetryError
 from google.cloud import firestore
 
-'''
+"""
 OMDb  API (Open Movie Database) URL uses at least the following parameters:
 * Search query: s
 * API key: apikey
@@ -16,49 +16,65 @@ We can use the search query parameter to search for movies with a specific title
 for movies which a specific word in the title, since there is no endpoint to get all movies at once.
 
 Example: https://www.omdbapi.com/?s=<query parameter>&apikey=<omdb api key>&page=<page number>
-'''
+"""
 
-search: str = dotenv.get_key('.env', 'OMDB_SEARCH')
-apiKey: str = dotenv.get_key('.env', 'OMDB_API_KEY')
-fsCollection: str = dotenv.get_key('.env', 'FIRESTORE_COLLECTION')
+search: str = dotenv.get_key(".env", "OMDB_SEARCH")
+apiKey: str = dotenv.get_key(".env", "OMDB_API_KEY")
+fsCollection: str = dotenv.get_key(".env", "FIRESTORE_COLLECTION")
 
 db: firestore.Client = firestore.Client()
 
+
 def populate_db():
     for page in range(1, 11):
-        queryUrl: str = f"https://www.omdbapi.com/?s={search}&apikey={apiKey}&page={page}"
-        
+        queryUrl: str = (
+            f"https://www.omdbapi.com/?s={search}&apikey={apiKey}&page={page}"
+        )
+
         with request.urlopen(queryUrl) as response:
-            response = response.read().decode('utf-8')
-            response_json = json.loads(response)['Search']
+            response = response.read().decode("utf-8")
+            response_json = json.loads(response)["Search"]
 
             for movie in response_json:
                 try:
                     print(f"Adding {movie['Title']} to the database")
-                    doc_ref = db.collection(fsCollection).document(movie['imdbID'])
-                    
-                    # Tokenize title to allow partial search in Firebase. 
+                    doc_ref = db.collection(fsCollection).document(movie["imdbID"])
+
+                    # Tokenize title to allow partial search in Firebase.
                     # Make all lowercase to the search can be insensitive.
-                    title_without_special_chars = movie['Title'].translate(str.maketrans('', '', string.punctuation))
-                    tokenized_title = [token.lower() for token in title_without_special_chars.split(' ')]
-                    movie['Title_tokens'] = (
-                        tokenized_title + 
-                        [title_without_special_chars.lower()] + 
-                        [movie['Title'].lower()]
+                    title_without_special_chars = movie["Title"].translate(
+                        str.maketrans("", "", string.punctuation)
+                    )
+                    tokenized_title = [
+                        token.lower()
+                        for token in title_without_special_chars.split(" ")
+                    ]
+                    movie["Title_tokens"] = (
+                        tokenized_title
+                        + [title_without_special_chars.lower()]
+                        + [movie["Title"].lower()]
                     )
 
                     doc_ref.create(movie)
                 except AlreadyExists:
-                    print(f"Error: {movie['Title']} already exists in the database. Skipping...")
+                    print(
+                        f"Error: {movie['Title']} already exists in the database. Skipping..."
+                    )
                 except RetryError as re:
-                    print(f"Failed to add {movie['Title']} to the database. Original error was: {re.with_traceback()}")
+                    print(
+                        f"Failed to add {movie['Title']} to the database. Original error was: {re.with_traceback()}"
+                    )
 
-'''
+
+"""
 Check if database is already populated. If it is, this script won't do anything.
-'''
+"""
+
+
 def check_db():
-    db_count = db.collection(fsCollection).count().get()[0][0].value 
+    db_count = db.collection(fsCollection).count().get()[0][0].value
     return db_count == 0
+
 
 if check_db():
     print("Database already populated. No need to add new data.")

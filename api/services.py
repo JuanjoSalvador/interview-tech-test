@@ -23,4 +23,3 @@ class APIService(metaclass=ABCMeta):
     @abstractmethod
     def delete(self, *args, **kwargs):
         pass
-  

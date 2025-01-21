@@ -1,7 +1,7 @@
-
 from unittest.mock import MagicMock
 
 from app.movies.services import MovieService
+
 
 def test_all_pagination(mock_firestore_client):
     """Prueba la funcionalidad de paginación sin búsqueda."""
@@ -9,8 +9,24 @@ def test_all_pagination(mock_firestore_client):
     mock_query = MagicMock()
     mock_firestore_client.return_value = mock_query
     mock_query.select.return_value.order_by.return_value.offset.return_value.limit.return_value.get.return_value = [
-        MagicMock(to_dict=lambda: {"Type": "movie", "Title": "Mock Movie 1", "Year": "2020", "Poster": "url1", "imdbID": "id1"}),
-        MagicMock(to_dict=lambda: {"Type": "movie", "Title": "Mock Movie 2", "Year": "2021", "Poster": "url2", "imdbID": "id2"}),
+        MagicMock(
+            to_dict=lambda: {
+                "Type": "movie",
+                "Title": "Mock Movie 1",
+                "Year": "2020",
+                "Poster": "url1",
+                "imdbID": "id1",
+            }
+        ),
+        MagicMock(
+            to_dict=lambda: {
+                "Type": "movie",
+                "Title": "Mock Movie 2",
+                "Year": "2021",
+                "Poster": "url2",
+                "imdbID": "id2",
+            }
+        ),
     ]
 
     # Llamar a la función con la paginación configurada
@@ -18,8 +34,20 @@ def test_all_pagination(mock_firestore_client):
 
     # Verificar el resultado
     assert result["results"] == [
-        {"Type": "movie", "Title": "Mock Movie 1", "Year": "2020", "Poster": "url1", "imdbID": "id1"},
-        {"Type": "movie", "Title": "Mock Movie 2", "Year": "2021", "Poster": "url2", "imdbID": "id2"},
+        {
+            "Type": "movie",
+            "Title": "Mock Movie 1",
+            "Year": "2020",
+            "Poster": "url1",
+            "imdbID": "id1",
+        },
+        {
+            "Type": "movie",
+            "Title": "Mock Movie 2",
+            "Year": "2021",
+            "Poster": "url2",
+            "imdbID": "id2",
+        },
     ]
     assert result["total"] == 2
     assert result["num_of_pages"] == 1
@@ -34,7 +62,15 @@ def test_all_with_search(mock_firestore_client):
     mock_query = MagicMock()
     mock_firestore_client.return_value = mock_query
     mock_query.select.return_value.where.return_value.order_by.return_value.offset.return_value.limit.return_value.get.return_value = [
-        MagicMock(to_dict=lambda: {"Type": "movie", "Title": "Searched Movie", "Year": "2022", "Poster": "url3", "imdbID": "id3"}),
+        MagicMock(
+            to_dict=lambda: {
+                "Type": "movie",
+                "Title": "Searched Movie",
+                "Year": "2022",
+                "Poster": "url3",
+                "imdbID": "id3",
+            }
+        ),
     ]
 
     # Llamar a la función con un término de búsqueda
@@ -42,7 +78,13 @@ def test_all_with_search(mock_firestore_client):
 
     # Verificar el resultado
     assert result["results"] == [
-        {"Type": "movie", "Title": "Searched Movie", "Year": "2022", "Poster": "url3", "imdbID": "id3"},
+        {
+            "Type": "movie",
+            "Title": "Searched Movie",
+            "Year": "2022",
+            "Poster": "url3",
+            "imdbID": "id3",
+        },
     ]
     assert result["total"] == 1
     assert result["num_of_pages"] == 1

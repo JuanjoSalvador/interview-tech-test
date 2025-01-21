@@ -5,16 +5,23 @@ from unittest.mock import MagicMock
 from app.movies.services import MovieService
 from api.exceptions import ValidationError
 
+
 def test_create_movie_object(mock_firestore_client, mock_validate_post):
-    '''
+    """
     Test insert new movie into database with valid data.
-    '''
+    """
     mock_validate_post.return_value = True
 
     mock_query = MagicMock()
     mock_firestore_client.return_value.document.return_value = mock_query
 
-    data = {"imdbID": "mock_id", "Type": "movie", "Title": "Mock Movie", "Year": "2020", "Poster": "mock_url"}
+    data = {
+        "imdbID": "mock_id",
+        "Type": "movie",
+        "Title": "Mock Movie",
+        "Year": "2020",
+        "Poster": "mock_url",
+    }
     result = MovieService.create(data)
 
     assert result == data
@@ -26,9 +33,9 @@ def test_create_movie_object(mock_firestore_client, mock_validate_post):
 
 
 def test_create_invalid_movie_object(mock_firestore_client, mock_validate_post):
-    '''
+    """
     Test insert new movie into database with invalid data.
-    '''
+    """
     mock_validate_post.return_value = False
 
     mock_query = MagicMock()
@@ -48,7 +55,13 @@ def test_create_invalid_movie_object(mock_firestore_client, mock_validate_post):
 
 
 def test_validate_data_valid():
-    data = {"imdbID": "mock_id", "Type": "movie", "Title": "Mock Movie", "Year": "2020", "Poster": "mock_url"}
+    data = {
+        "imdbID": "mock_id",
+        "Type": "movie",
+        "Title": "Mock Movie",
+        "Year": "2020",
+        "Poster": "mock_url",
+    }
     is_valid = MovieService.validate_post(data)
 
     assert is_valid is True
