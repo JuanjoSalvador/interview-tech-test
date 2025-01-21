@@ -1,8 +1,7 @@
-# Technical test for Brite
+# Movies API
 
-Python API RESTful cloud native, running on Google Cloud Platform
+Python API RESTful built on top of WSGI and Firebase.
 
-## Requirements
-
-
-## Development
+* Firestore
+* Firebase Authentication
+* Gunicorn
