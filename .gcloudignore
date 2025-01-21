@@ -9,3 +9,4 @@ __pycache__/*
 # uv y virtualenv
 .python-version
 .venv
+uv.lock
