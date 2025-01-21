@@ -1,4 +1,11 @@
+# Secrets
 .env
-secrets/*
+secrets
 
+# Pycache
+__pycache__
 __pycache__/*
+
+# uv y virtualenv
+.python-version
+.venv
