@@ -1,15 +1,12 @@
 import pytest
 from unittest.mock import patch
 
-from api.api import MoviesAPI
-
 
 @pytest.fixture
 def app(monkeypatch):
-    monkeypatch.setenv(
-        "GOOGLE_APPLICATION_CREDENTIALS", 
-        "tests/fake-credentials.json"
-    )
+    monkeypatch.setenv("GOOGLE_APPLICATION_CREDENTIALS", "tests/fake-credentials.json")
+
+    from api.api import MoviesAPI
 
     return MoviesAPI()
 
