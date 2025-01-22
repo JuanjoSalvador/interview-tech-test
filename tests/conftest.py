@@ -3,16 +3,13 @@ from unittest.mock import patch
 
 
 @pytest.fixture
-def app(monkeypatch):
+def api_client(app, monkeypatch):
     monkeypatch.setenv("GOOGLE_APPLICATION_CREDENTIALS", "tests/fake-credentials.json")
 
     from api.api import MoviesAPI
 
-    return MoviesAPI()
+    app = MoviesAPI()
 
-
-@pytest.fixture
-def api_client(app):
     return app.session()
 
 
