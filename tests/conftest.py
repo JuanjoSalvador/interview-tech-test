@@ -5,7 +5,12 @@ from api.api import MoviesAPI
 
 
 @pytest.fixture
-def app():
+def app(monkeypatch):
+    monkeypatch.setenv(
+        "GOOGLE_APPLICATION_CREDENTIALS", 
+        "credentials.json"
+    )
+    
     return MoviesAPI()
 
 
