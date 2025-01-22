@@ -48,17 +48,17 @@ def mock_validate_post():
 
 @pytest.fixture
 def mock_validate_user():
-    with patch("api.permissions.user_has_roles") as validate_user:
+    with patch("api.auth.permissions.user_has_roles") as validate_user:
         yield validate_user
 
 
 @pytest.fixture
 def mock_get_user_roles():
-    with patch("api.permissions._get_user_roles") as get_user_roles:
+    with patch("api.auth.permissions._get_user_roles") as get_user_roles:
         yield get_user_roles
 
 
 @pytest.fixture
 def mock_validate_token():
-    with patch("api.permissions._validate_token") as validate_token:
+    with patch("api.auth.permissions._validate_token") as validate_token:
         yield validate_token

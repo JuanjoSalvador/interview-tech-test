@@ -1,5 +1,4 @@
 import json
-from datetime import datetime, timedelta
 
 import requests
 
@@ -30,9 +29,6 @@ class LoginService(APIService):
         )
 
         response = r.json()
-        expiration_time = int(response["expiresIn"])
-        expiration_date = datetime.now() + timedelta(seconds=expiration_time)
-        response["expirationDate"] = expiration_date.strftime("%Y-%m-%dT%H:%M:%S.%f")
 
         if response.get("error"):
             message = response["error"]["message"]

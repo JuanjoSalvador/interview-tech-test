@@ -3,7 +3,7 @@ import math
 from app import settings
 from api.exceptions import DocumentDoesNotExist, NotAuthorizedException, ValidationError
 from api import services
-from api.permissions import user_has_roles
+from api.auth.permissions import user_has_roles
 from api.firebase_client import db
 
 
