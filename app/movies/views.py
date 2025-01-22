@@ -30,6 +30,9 @@ class MoviesView(ModelView):
         except (ValueError, TypeError):  # pragma: no cover
             resp.status_code = 500
 
+        finally:
+            resp.content_type = "application/json"
+
         return resp
 
     def post(self, req, resp, **kwargs):
@@ -50,6 +53,7 @@ class MoviesView(ModelView):
 
         finally:
             resp.json = response
+            resp.content_type = "application/json"
 
         return resp
 
@@ -71,6 +75,8 @@ class MoviesView(ModelView):
         except DocumentDoesNotExist as not_exist:
             resp.status_code = 400
             resp.json = {"error": {"message": not_exist.message}}
+        finally:
+            resp.content_type = "application/json"
 
         return resp
 
