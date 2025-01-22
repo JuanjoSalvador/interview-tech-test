@@ -55,12 +55,13 @@ def test_create_invalid_movie_object(mock_firestore_collection, mock_validate_po
         mock_validate_post.assert_called_once_with(data)
         not mock_validate_post.assert_called_with(data)
         mock_firestore_collection.assert_called_once_with("movies")
-        mock_firestore_collection.return_value.document.assert_called_once_with("mock_id")
+        mock_firestore_collection.return_value.document.assert_called_once_with(
+            "mock_id"
+        )
         mock_query.set.assert_called_once_with(data)
 
 
 def test_validate_data_valid():
-    
     from app.movies.services import MovieService
 
     data = {
@@ -76,9 +77,8 @@ def test_validate_data_valid():
 
 
 def test_validate_data_invalid():
-
     from app.movies.services import MovieService
-    
+
     data = {"Title": "Mock Movie", "Year": "2020"}
     is_valid = MovieService.validate_post(data)
 

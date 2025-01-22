@@ -6,8 +6,7 @@ from api.exceptions import DocumentDoesNotExist
 
 
 def test_get_movie(mock_firestore_collection, mock_firestore_movies):
-    '''
-    '''
+    """ """
 
     from app.movies.services import MovieService
 
@@ -28,8 +27,7 @@ def test_get_movie(mock_firestore_collection, mock_firestore_movies):
 
 
 def test_get_movie_not_found(mock_firestore_collection, mock_firestore_movies):
-    '''
-    '''
+    """ """
 
     from app.movies.services import MovieService
 

@@ -8,9 +8,9 @@ from google.auth.credentials import AnonymousCredentials
 def api_client(monkeypatch):
     def mock_google_auth_default(scopes=None, request=None):
         return AnonymousCredentials(), "mock-project-id"
-    
+
     monkeypatch.setattr("google.auth.default", mock_google_auth_default)
-    
+
     from api.api import MoviesAPI
 
     app = MoviesAPI()
@@ -22,7 +22,7 @@ def api_client(monkeypatch):
 def mock_firestore_collection(monkeypatch):
     def mock_google_auth_default(scopes=None, request=None):
         return AnonymousCredentials(), "mock-project-id"
-    
+
     monkeypatch.setattr("google.auth.default", mock_google_auth_default)
 
     with patch("api.firebase_client.db.collection") as mock_collection:

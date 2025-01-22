@@ -1,7 +1,9 @@
 from unittest.mock import MagicMock
 
 
-def test_get_all_movies_view(api_client, mock_firestore_collection, mock_firestore_movies):
+def test_get_all_movies_view(
+    api_client, mock_firestore_collection, mock_firestore_movies
+):
     mock_db = MagicMock()
     mock_firestore_collection.return_value = mock_db
     mock_db.select.return_value.order_by.return_value.offset.return_value.limit.return_value.get.return_value = [
@@ -15,7 +17,9 @@ def test_get_all_movies_view(api_client, mock_firestore_collection, mock_firesto
     assert response.status_code == 200
 
 
-def test_get_one_movie_view(api_client, mock_firestore_collection, mock_firestore_movies):
+def test_get_one_movie_view(
+    api_client, mock_firestore_collection, mock_firestore_movies
+):
     mock_db = MagicMock()
     mock_firestore_collection.return_value = mock_db
     mock_db.document.return_value.get.return_value = MagicMock(
