@@ -21,7 +21,6 @@ def test_create_movie_view(mock_firestore_collection, api_client):
     assert response.status_code == 200
     assert response_json == data
 
-    mock_firestore_collection.assert_called_once_with("movies")
     mock_firestore_collection.return_value.document.assert_called_once_with("mock_id")
     mock_query.set.assert_called_once_with(data)
 

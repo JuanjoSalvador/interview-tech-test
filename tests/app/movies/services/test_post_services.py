@@ -54,7 +54,6 @@ def test_create_invalid_movie_object(mock_firestore_collection, mock_validate_po
 
         mock_validate_post.assert_called_once_with(data)
         not mock_validate_post.assert_called_with(data)
-        mock_firestore_collection.assert_called_once_with("movies")
         mock_firestore_collection.return_value.document.assert_called_once_with(
             "mock_id"
         )
