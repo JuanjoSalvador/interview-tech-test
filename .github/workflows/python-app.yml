@@ -33,9 +33,4 @@ jobs:
         ruff check
     - name: Test with pytest
       run: |
-       pytest --junitxml=pytest.xml --cov-report=term-missing:skip-covered --cov tests/ | tee pytest-coverage.txt
-    - name: Pytest coverage comment
-      uses: MishaKav/pytest-coverage-comment@main
-      with:
-        pytest-coverage-path: pytest-coverage.txt
-        junitxml-path: pytest.xml
+       pytest --cov-report xml
