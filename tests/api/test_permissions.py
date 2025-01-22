@@ -4,7 +4,7 @@ from unittest.mock import MagicMock
 def test_get_user_roles_with_staff(
     mock_firestore_collection,
 ):
-    from api.permissions import _get_user_roles
+    from api.auth.permissions import _get_user_roles
 
     email = "test@example.org"
 
@@ -21,7 +21,7 @@ def test_get_user_roles_with_staff(
 
 
 def test_get_user_roles_without_role(mock_firestore_collection):
-    from api.permissions import _get_user_roles
+    from api.auth.permissions import _get_user_roles
 
     email = "test@example.org"
 
