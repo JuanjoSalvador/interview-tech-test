@@ -10,6 +10,7 @@ from app.urls import URLS
 from api.views import View
 from api.router.api_route import APIRoute
 
+
 class MoviesAPI:
     def __init__(self):
         self._routes: list[APIRoute] = URLS
@@ -41,7 +42,7 @@ class MoviesAPI:
                 handler = getattr(handler(), request.method.lower(), None)
                 if handler is None:
                     raise AttributeError("Method Not Allowed", request.method)
-            
+
                 response = handler(request, response, **kwargs)
 
         else:
