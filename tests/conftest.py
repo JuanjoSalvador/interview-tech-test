@@ -8,9 +8,9 @@ from api.api import MoviesAPI
 def app(monkeypatch):
     monkeypatch.setenv(
         "GOOGLE_APPLICATION_CREDENTIALS", 
-        "credentials.json"
+        "tests/fake-credentials.json"
     )
-    
+
     return MoviesAPI()
 
 
