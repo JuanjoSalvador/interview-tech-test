@@ -2,7 +2,7 @@ from unittest.mock import MagicMock
 
 
 def test_delete_movie_object_staff(
-    mock_firestore_client,
+    mock_firestore_collection,
     mock_firestore_movies,
     mock_get_user_roles,
     mock_validate_token,
@@ -17,7 +17,7 @@ def test_delete_movie_object_staff(
     movie_id = mock_firestore_movies.get("imdbID", None)
 
     mock_query = MagicMock()
-    mock_firestore_client.return_value = mock_query
+    mock_firestore_collection.return_value = mock_query
     mock_query.document.return_value.get.return_value.to_dict.return_value = MagicMock(
         to_dict=lambda: mock_firestore_movies
     )
@@ -34,7 +34,7 @@ def test_delete_movie_object_staff(
 
 
 def test_delete_movie_object_not_staff(
-    mock_firestore_client,
+    mock_firestore_collection,
     mock_firestore_movies,
     mock_get_user_roles,
     mock_validate_token,
@@ -49,7 +49,7 @@ def test_delete_movie_object_not_staff(
     movie_id = mock_firestore_movies.get("imdbID", None)
 
     mock_query = MagicMock()
-    mock_firestore_client.return_value = mock_query
+    mock_firestore_collection.return_value = mock_query
     mock_query.document.return_value.get.return_value.to_dict.return_value = MagicMock(
         to_dict=lambda: mock_firestore_movies
     )
@@ -66,7 +66,7 @@ def test_delete_movie_object_not_staff(
 
 
 def test_delete_movie_object_no_authorization(
-    mock_firestore_client,
+    mock_firestore_collection,
     mock_firestore_movies,
     mock_get_user_roles,
     mock_validate_token,
@@ -79,7 +79,7 @@ def test_delete_movie_object_no_authorization(
     movie_id = mock_firestore_movies.get("imdbID", None)
 
     mock_query = MagicMock()
-    mock_firestore_client.return_value = mock_query
+    mock_firestore_collection.return_value = mock_query
     mock_query.document.return_value.get.return_value.to_dict.return_value = MagicMock(
         to_dict=lambda: mock_firestore_movies
     )
@@ -96,7 +96,7 @@ def test_delete_movie_object_no_authorization(
 
 
 def test_delete_movie_object_document_does_not_exist(
-    mock_firestore_client, mock_get_user_roles, mock_validate_token, api_client
+    mock_firestore_collection, mock_get_user_roles, mock_validate_token, api_client
 ):
     """
     Test delete movie from database, where movie does not exist
@@ -107,7 +107,7 @@ def test_delete_movie_object_document_does_not_exist(
     headers = {"Authorization": f"Bearer {token}"}
 
     mock_query = MagicMock()
-    mock_firestore_client.return_value = mock_query
+    mock_firestore_collection.return_value = mock_query
     mock_query.document.return_value.get.return_value = MagicMock(to_dict=lambda: {})
 
     mock_get_user_roles.return_value = ["staff"]

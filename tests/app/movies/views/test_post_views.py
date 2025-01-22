@@ -1,12 +1,12 @@
 from unittest.mock import MagicMock
 
 
-def test_create_movie_view(mock_firestore_client, api_client):
+def test_create_movie_view(mock_firestore_collection, api_client):
     """
     Test insert new movie into database with valid data through view.
     """
     mock_query = MagicMock()
-    mock_firestore_client.return_value.document.return_value = mock_query
+    mock_firestore_collection.return_value.document.return_value = mock_query
 
     data = {
         "imdbID": "mock_id",
@@ -21,12 +21,12 @@ def test_create_movie_view(mock_firestore_client, api_client):
     assert response.status_code == 200
     assert response_json == data
 
-    mock_firestore_client.assert_called_once_with("movies")
-    mock_firestore_client.return_value.document.assert_called_once_with("mock_id")
+    mock_firestore_collection.assert_called_once_with("movies")
+    mock_firestore_collection.return_value.document.assert_called_once_with("mock_id")
     mock_query.set.assert_called_once_with(data)
 
 
-def test_create_invalid_movie_view(mock_firestore_client, api_client):
+def test_create_invalid_movie_view(mock_firestore_collection, api_client):
     """
     Test insert new movie into database with invalid data through view.
     """

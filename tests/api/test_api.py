@@ -1,6 +1,5 @@
 import pytest
 
-
 def test_api_method_not_allowed(api_client):
     with pytest.raises(AttributeError):
         response = api_client.options("http://testserver/api/v1/movies/")

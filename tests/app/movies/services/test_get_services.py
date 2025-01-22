@@ -2,13 +2,17 @@ import pytest
 
 from unittest.mock import MagicMock
 
-from app.movies.services import MovieService
 from api.exceptions import DocumentDoesNotExist
 
 
-def test_get_movie(mock_firestore_client, mock_firestore_movies):
+def test_get_movie(mock_firestore_collection, mock_firestore_movies):
+    '''
+    '''
+
+    from app.movies.services import MovieService
+
     mock_query = MagicMock()
-    mock_firestore_client.return_value = mock_query
+    mock_firestore_collection.return_value = mock_query
     mock_query.document.return_value.get.return_value = MagicMock(
         to_dict=lambda: mock_firestore_movies
     )
@@ -23,9 +27,14 @@ def test_get_movie(mock_firestore_client, mock_firestore_movies):
     assert result == mock_firestore_movies
 
 
-def test_get_movie_not_found(mock_firestore_client, mock_firestore_movies):
+def test_get_movie_not_found(mock_firestore_collection, mock_firestore_movies):
+    '''
+    '''
+
+    from app.movies.services import MovieService
+
     mock_query = MagicMock()
-    mock_firestore_client.return_value = mock_query
+    mock_firestore_collection.return_value = mock_query
     mock_query.document.return_value.get.return_value = MagicMock(to_dict=lambda: {})
     movie_id = mock_firestore_movies.get("imdbID", None)
 

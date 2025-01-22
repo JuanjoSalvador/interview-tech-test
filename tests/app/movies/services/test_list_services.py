@@ -1,13 +1,14 @@
 from unittest.mock import MagicMock
 
-from app.movies.services import MovieService
 
-
-def test_all_pagination(mock_firestore_client):
+def test_all_pagination(mock_firestore_collection):
     """Prueba la funcionalidad de paginación sin búsqueda."""
+
+    from app.movies.services import MovieService
+
     # Configurar el mock para devolver documentos simulados
     mock_query = MagicMock()
-    mock_firestore_client.return_value = mock_query
+    mock_firestore_collection.return_value = mock_query
     mock_query.select.return_value.order_by.return_value.offset.return_value.limit.return_value.get.return_value = [
         MagicMock(
             to_dict=lambda: {
@@ -56,11 +57,14 @@ def test_all_pagination(mock_firestore_client):
     assert result["last-page"] == "?page=1&page_size=2"
 
 
-def test_all_with_search(mock_firestore_client):
+def test_all_with_search(mock_firestore_collection):
     """Prueba la funcionalidad de búsqueda."""
+
+    from app.movies.services import MovieService
+
     # Configurar el mock para devolver documentos filtrados
     mock_query = MagicMock()
-    mock_firestore_client.return_value = mock_query
+    mock_firestore_collection.return_value = mock_query
     mock_query.select.return_value.where.return_value.order_by.return_value.offset.return_value.limit.return_value.get.return_value = [
         MagicMock(
             to_dict=lambda: {
@@ -93,11 +97,14 @@ def test_all_with_search(mock_firestore_client):
     assert result["last-page"] == "?page=1&page_size=10"
 
 
-def test_all_empty_results(mock_firestore_client):
+def test_all_empty_results(mock_firestore_collection):
     """Prueba cuando no hay resultados."""
+
+    from app.movies.services import MovieService
+
     # Configurar el mock para devolver una lista vacía
     mock_query = MagicMock()
-    mock_firestore_client.return_value = mock_query
+    mock_firestore_collection.return_value = mock_query
     mock_query.select.return_value.order_by.return_value.offset.return_value.limit.return_value.get.return_value = []
 
     # Llamar a la función sin resultados
@@ -112,11 +119,14 @@ def test_all_empty_results(mock_firestore_client):
     assert result["last-page"] == "?page=1&page_size=10"
 
 
-def test_all_invalid_page(mock_firestore_client):
+def test_all_invalid_page(mock_firestore_collection):
     """Prueba cuando la página es inválida (menor que 1)."""
     # Configurar el mock para devolver documentos simulados
+
+    from app.movies.services import MovieService
+
     mock_query = MagicMock()
-    mock_firestore_client.return_value = mock_query
+    mock_firestore_collection.return_value = mock_query
     mock_query.select.return_value.order_by.return_value.offset.return_value.limit.return_value.get.return_value = []
 
     # Llamar a la función con una página inválida
