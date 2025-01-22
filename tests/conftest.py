@@ -26,7 +26,7 @@ def mock_google_credentials_file(monkeypatch, tmp_path):
     yield fake_credentials_path
 
 @pytest.fixture
-def api_client(mock_google_credentials_file):
+def api_client():
     from api.api import MoviesAPI
 
     app = MoviesAPI()
@@ -35,7 +35,7 @@ def api_client(mock_google_credentials_file):
 
 
 @pytest.fixture
-def mock_firestore_client():
+def mock_firestore_client(mock_google_credentials_file):
     with patch("api.firebase_client.db.collection") as mock_collection:
         yield mock_collection
 
