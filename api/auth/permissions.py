@@ -17,7 +17,7 @@ def _validate_token(token) -> Tuple[str, bool]:  # pragma: no cover
         email = decoded_token["email"]
         is_valid = True
     except (
-        auth.ValueError,
+        ValueError,
         auth.ExpiredIdTokenError,
         auth.InvalidIdTokenError,
         auth.RevokedIdTokenError,
@@ -35,8 +35,10 @@ def _validate_token(token) -> Tuple[str, bool]:  # pragma: no cover
 
 def _get_user_roles(email) -> list:
     user_roles = db.collection("users").document(email).get().to_dict()
-
-    return user_roles.get("roles", None)
+    if user_roles is not None:
+        return user_roles.get("roles", None)
+    
+    return []
 
 
 def user_has_roles(token: str, required_roles: list = []) -> bool:
